@@ -68,16 +68,32 @@ function clearItems() {
   checkUI();
 }
 
+// toogles the visibility of filter input and clear button if a list item exists or not
 function checkUI() {
   const items = itemList.querySelectorAll("li");
 
   if (items.length === 0) {
     itemFilter.style.display = "none";
     clearButton.style.display = "none";
+    itemFilter.removeEventListener("input", filterItems);
     return;
   }
   itemFilter.style.display = "block";
   clearButton.style.display = "block";
+  itemFilter.addEventListener("input", filterItems);
 }
 
 checkUI();
+
+function filterItems(e) {
+  const items = itemList.querySelectorAll("li");
+  const text = e.target.value.toLowerCase();
+
+  items.forEach((item) => {
+    if (item.firstChild.textContent.toLowerCase().includes(text)) {
+      item.style.display = "flex";
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
