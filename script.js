@@ -8,6 +8,16 @@ const clearButton = document.querySelector("#clear");
 itemForm.addEventListener("submit", onAddItemSubmit);
 itemList.addEventListener("click", removeItem);
 clearButton.addEventListener("click", clearItems);
+document.addEventListener("DOMContentLoaded", displayItems);
+
+// displaying items from local storage
+function displayItems() {
+  const itemsFromStorage = getItemsFromStorage();
+  itemsFromStorage.forEach((item) => {
+    addItemToDOM(item);
+  });
+  checkUI();
+}
 
 // Add items to list item
 function onAddItemSubmit(e) {
@@ -39,17 +49,6 @@ function addItemToDOM(item) {
   itemList.appendChild(listItem);
 }
 
-function addItemToStorage(item) {
-  let itemsFromStorage;
-  if (localStorage.getItem("items") === null) {
-    itemsFromStorage = [];
-  } else {
-    itemsFromStorage = JSON.parse(localStorage.getItem("items"));
-  }
-  itemsFromStorage.push(item);
-  localStorage.setItem("items", JSON.stringify(itemsFromStorage));
-}
-
 function createButton(classNames) {
   const button = document.createElement("button");
   const deleteIcon = createIcon("fa-solid fa-xmark");
@@ -62,6 +61,23 @@ function createIcon(classNames) {
   const icon = document.createElement("i");
   icon.setAttribute("class", classNames);
   return icon;
+}
+
+function addItemToStorage(item) {
+  const itemsFromStorage = getItemsFromStorage();
+  itemsFromStorage.push(item);
+  localStorage.setItem("items", JSON.stringify(itemsFromStorage));
+}
+
+function getItemsFromStorage() {
+  let itemsFromStorage;
+
+  if (localStorage.getItem("items") === null) {
+    itemsFromStorage = [];
+  } else {
+    itemsFromStorage = JSON.parse(localStorage.getItem("items"));
+  }
+  return itemsFromStorage;
 }
 
 // delete Item from list item
