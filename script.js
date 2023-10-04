@@ -4,7 +4,9 @@ const itemList = document.querySelector("#item-list");
 
 // Event listeners
 itemForm.addEventListener("submit", addItem);
+itemList.addEventListener("click", removeItem);
 
+// Add items to list item
 function addItem(e) {
   e.preventDefault();
 
@@ -15,7 +17,7 @@ function addItem(e) {
     return;
   }
 
-  //create a new item
+  // create a new item
   const listItem = document.createElement("li");
   const itemText = document.createTextNode(newItem);
   const deleteBtn = createButton("remove-item btn-link text-red");
@@ -38,4 +40,12 @@ function createIcon(classNames) {
   const icon = document.createElement("i");
   icon.setAttribute("class", classNames);
   return icon;
+}
+
+// delete Item from list item
+function removeItem(e) {
+  const target = e.target;
+  if (target.parentElement.classList.contains("remove-item")) {
+    target.parentElement.parentElement.remove();
+  }
 }
