@@ -34,6 +34,15 @@ function onAddItemSubmit(e) {
     return;
   }
 
+  //check if app state is in edit mode
+  if (isEditMode) {
+    const itemToEdit = itemList.querySelector(".edit-mode");
+    removeItemFromStorage(itemToEdit.textContent);
+    itemToEdit.classList.remove("edit-mode");
+    itemToEdit.remove();
+    isEditMode = false;
+  }
+
   addItemToDOM(newItem);
   addItemToStorage(newItem);
 
@@ -143,17 +152,22 @@ function clearItems() {
 
 // toogles the visibility of filter input and clear button if a list item exists or not
 function checkUI() {
+  itemInput.value = "";
   const items = itemList.querySelectorAll("li");
 
   if (items.length === 0) {
     itemFilter.style.display = "none";
     clearButton.style.display = "none";
     itemFilter.removeEventListener("input", filterItems);
-    return;
+  } else {
+    itemFilter.style.display = "block";
+    clearButton.style.display = "block";
+    itemFilter.addEventListener("input", filterItems);
   }
-  itemFilter.style.display = "block";
-  clearButton.style.display = "block";
-  itemFilter.addEventListener("input", filterItems);
+
+  formBtn.innerHTML = `<i class="fa-solid fa-plus"></i> Add Item`;
+  formBtn.style.color = "#333";
+  isEditMode = false;
 }
 
 checkUI();
