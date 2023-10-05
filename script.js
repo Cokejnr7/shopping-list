@@ -53,6 +53,7 @@ function addItemToDOM(item) {
   itemList.appendChild(listItem);
 }
 
+// creates button with an icon and returns it
 function createButton(classNames) {
   const button = document.createElement("button");
   const deleteIcon = createIcon("fa-solid fa-xmark");
@@ -61,18 +62,21 @@ function createButton(classNames) {
   return button;
 }
 
+//creates an icon and returns it
 function createIcon(classNames) {
   const icon = document.createElement("i");
   icon.setAttribute("class", classNames);
   return icon;
 }
 
+// adds an Item to localStorage
 function addItemToStorage(item) {
   const itemsFromStorage = getItemsFromStorage();
   itemsFromStorage.push(item);
   localStorage.setItem("items", JSON.stringify(itemsFromStorage));
 }
 
+// returns all items from localStorage
 function getItemsFromStorage() {
   let itemsFromStorage;
 
@@ -92,6 +96,7 @@ function onClickItem(e) {
   }
 }
 
+// sets the app state to edit mode
 function setItemToEdit(item) {
   isEditMode = true;
 
@@ -116,6 +121,7 @@ function removeItem(item) {
   }
 }
 
+// remove Item from localStorage
 function removeItemFromStorage(item) {
   let itemsFromStorage = getItemsFromStorage();
   itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
@@ -124,7 +130,7 @@ function removeItemFromStorage(item) {
   localStorage.setItem("items", JSON.stringify(itemsFromStorage));
 }
 
-// clear all list items
+// clear and removes all list items  from UI and localStorage
 function clearItems() {
   if (itemList.firstChild) {
     itemList.removeChild(itemList.firstChild);
@@ -152,6 +158,7 @@ function checkUI() {
 
 checkUI();
 
+// display list items based of the filter input value
 function filterItems(e) {
   const items = itemList.querySelectorAll("li");
   const text = e.target.value.toLowerCase();
