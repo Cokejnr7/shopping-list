@@ -41,6 +41,11 @@ function onAddItemSubmit(e) {
     itemToEdit.classList.remove("edit-mode");
     itemToEdit.remove();
     isEditMode = false;
+  } else {
+    if (checkItemExists(newItem)) {
+      alert("That item already exists");
+      return;
+    }
   }
 
   addItemToDOM(newItem);
@@ -103,6 +108,11 @@ function onClickItem(e) {
   } else if (e.target.nodeName.toLowerCase() === "li") {
     setItemToEdit(e.target);
   }
+}
+
+function checkItemExists(item) {
+  const itemsFromStorage = getItemsFromStorage();
+  return itemsFromStorage.includes(item);
 }
 
 // sets the app state to edit mode
