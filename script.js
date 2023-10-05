@@ -3,6 +3,8 @@ const itemInput = document.querySelector("#item-input");
 const itemList = document.querySelector("#item-list");
 const itemFilter = document.querySelector("#filter");
 const clearButton = document.querySelector("#clear");
+const formBtn = itemForm.querySelector("button");
+let isEditMode = false;
 
 (function () {
   // Event listeners
@@ -85,7 +87,22 @@ function getItemsFromStorage() {
 function onClickItem(e) {
   if (e.target.parentElement.classList.contains("remove-item")) {
     removeItem(e.target.parentElement.parentElement);
+  } else if (e.target.nodeName.toLowerCase() === "li") {
+    setItemToEdit(e.target);
   }
+}
+
+function setItemToEdit(item) {
+  isEditMode = true;
+
+  itemList.querySelectorAll("li").forEach((li) => {
+    li.classList.remove("edit-mode");
+  });
+
+  formBtn.innerHTML = `<i class="fa-solid fa-pen"></i> Update Item`;
+  formBtn.style.backgroundColor = "#228B22";
+  item.classList.add("edit-mode");
+  itemInput.value = item.textContent;
 }
 
 // delete Item from list item
